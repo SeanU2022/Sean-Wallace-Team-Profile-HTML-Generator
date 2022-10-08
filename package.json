@@ -1,0 +1,21 @@
+{
+  "name": "sean-wallace-team-profile-html-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "comment": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Sean Wallace",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "jest": "^24.9.0"
+  }
+}
