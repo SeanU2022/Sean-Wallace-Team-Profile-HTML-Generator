@@ -80,8 +80,8 @@ const init = () => {
     promptUser()
       // Use writeFile method imported from fs.promises to use promises instead of
       // a callback function
-      .then((answers) => writeFile('index.html', generateHTML(answers)))
-      .then(() => console.log('Successfully wrote to index.html'))
+      .then((answers) => writeFile('./dist/index.html', generateHTML(answers)))
+      .then(() => console.log('Successfully wrote to ./dist/index.html'))
       .catch((err) => console.error(err))
 }
   
