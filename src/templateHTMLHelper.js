@@ -1,6 +1,7 @@
-// const generateHTML = ({ name, location, github, linkedin }) =>
-const generateHTML = ({ name, repoinfo }) =>
-  `<!DOCTYPE html>
+// Destucture object properties on the fly: const {name, repoinfo, github, linkedin} = answers
+// generateHTML does a single task: return HTML string in backticks
+const generateHTML = ({ name, repoinfo, github, linkedin }) =>
+`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -16,8 +17,8 @@ const generateHTML = ({ name, repoinfo }) =>
     <p class="lead">I am from ${repoinfo}.</p>
     <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
     <ul class="list-group">
-      <li class="list-group-item">My GitHub username is ${name}</li>
-      <li class="list-group-item">LinkedIn: ${repoinfo}</li>
+      <li class="list-group-item">My GitHub username is ${github}</li>
+      <li class="list-group-item">LinkedIn: ${linkedin}</li>
     </ul>
   </div>
 </div>

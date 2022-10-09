@@ -4,6 +4,8 @@ const { writeFile } = require('fs').promises;
 
 const { generateHTML } = require('./src/templateHTMLHelper')
 
+const { Employee } = require('./lib/employee')
+
 //const { generateMarkdown, licences } = require('./utils/generateHTML')
 
 // Array of questions for user input
@@ -27,17 +29,33 @@ const promptUser = () => {
             type: 'input', 
             name: 'repoinfo',
             message: 'What does the user need to know about using the repo?'
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: 'Enter your GitHub Username',
+        },
+        {
+            type: 'input',
+            name: 'linkedin',
+            message: 'Enter your LinkedIn URL.',
         }
 ])
 }
 
+
 // Bonus using writeFileSync as a promise
 const init = () => {
+
     promptUser()
       // Use writeFile method imported from fs.promises to use promises instead of
       // a callback function
       .then((answers) => writeFile('./dist/index.html', generateHTML(answers)))
       .then(() => console.log('Successfully wrote to ./dist/index.html'))
+      .then(() => {
+        emp = new Employee(123, "sean", "sean.wallace.australia@gmail.com")
+        emp.printInfo()
+      })
       .catch((err) => console.error(err))
 }
   
