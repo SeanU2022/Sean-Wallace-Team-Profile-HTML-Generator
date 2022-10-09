@@ -1,10 +1,13 @@
-const inquirer = require('inquirer');
+const Inquirer = require('inquirer');
+// import Inquirer from 'inquirer'
+
 // Node v10+ includes a promises module as an alternative to using callbacks with file system methods.
 const { writeFile } = require('fs').promises;
 
 const { generateHTML } = require('./src/templateHTMLHelper')
 
-const { Employee } = require('./lib/employee')
+const Employee = require('./lib/employee')
+const Manager = require('./lib/manager')
 
 //const { generateMarkdown, licences } = require('./utils/generateHTML')
 
@@ -18,28 +21,54 @@ const { Employee } = require('./lib/employee')
 //     choices: licences.map(lic => lic.name),
 //     default: "MIT"
 // },
-const promptUser = () => {
-    return inquirer.prompt([
+
+//team manager’s name, employee ID, email address, and office number
+
+const promptManager = () => {
+    return Inquirer.prompt([
+        {
+          type: 'input',
+          name: 'empid',
+          message: 'What is your Employee ID?',
+        },
         {
             type: 'input',
             name: 'name',
             message: 'What is your name?',
         },
         {
-            type: 'input', 
-            name: 'repoinfo',
-            message: 'What does the user need to know about using the repo?'
+          type: 'input',
+          name: 'email',
+          message: 'What is your Email Address?',
         },
         {
-            type: 'input',
-            name: 'github',
-            message: 'Enter your GitHub Username',
-        },
-        {
-            type: 'input',
-            name: 'linkedin',
-            message: 'Enter your LinkedIn URL.',
+          type: 'input',
+          name: 'officenumber',
+          message: 'What is your Office Number?',
         }
+        // ,
+        // BUILD TEAM ? TOO COMLEX FOR NOW
+        // {
+        //     type: 'confirm',
+        //     name: 'buildteam',
+        //     message: 'Would you like to build a team?'
+        // }
+        //
+        // {
+        //     type: 'input', 
+        //     name: 'repoinfo',
+        //     message: 'What does the user need to know about using the repo?'
+        // },
+        // {
+        //     type: 'input',
+        //     name: 'github',
+        //     message: 'Enter your GitHub Username',
+        // },
+        // {
+        //     type: 'input',
+        //     name: 'linkedin',
+        //     message: 'Enter your LinkedIn URL.',
+        // }
 ])
 }
 
@@ -47,16 +76,18 @@ const promptUser = () => {
 // Bonus using writeFileSync as a promise
 const init = () => {
 
-    promptUser()
+    promptManager()
       // Use writeFile method imported from fs.promises to use promises instead of
       // a callback function
-      .then((answers) => writeFile('./dist/index.html', generateHTML(answers)))
+.then((answers) => writeFile('./dist/index.html', generateHTML(answers)))
       .then(() => console.log('Successfully wrote to ./dist/index.html'))
-      .then(() => {
-        emp = new Employee(123, "sean", "sean.wallace.australia@gmail.com")
-        emp.printInfo()
+      .then((answers) => {
+        // const mgr = new Manager(777, 'SEAN', 'email@email', 909)
+        const mgr = new Manager(answers)
+        // mgr.printInfo()
+        console.log(mgr.getRole())
       })
-      .catch((err) => console.error(err))
+      .catch((error) => console.error(error))
 }
   
 init()
