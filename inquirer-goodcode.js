@@ -21,11 +21,11 @@ function prompt1() {
           name: 'personName',
           message: 'init=> What is your name?'
         }
-    ]).then((answer) => {
-        console.log(answer.personName)
-        prompt2()        
-        })
-    }
+        ]).then((answer) => {
+            console.log(answer.personName)
+            // prompt2() IS ASYNC HERE
+        }).then(() => prompt2())
+}
 
 
 function init() {
