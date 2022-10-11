@@ -9,6 +9,7 @@ describe('Employee', () => {
       const employeeID = 1234
       const employeeName = "John Smith"
       const employeeEmail = "email@companyname.com"
+      const employeeRole = "Employee"
 
       // Act
       // const obj = new Todo(text);
@@ -19,6 +20,7 @@ describe('Employee', () => {
       expect(employee.id).toEqual(employeeID)
       expect(employee.empName).toEqual(employeeName);
       expect(employee.email).toEqual(employeeEmail);
+      expect(employee.getRole()).toEqual(employeeRole);
     });
 
     // Exception tests

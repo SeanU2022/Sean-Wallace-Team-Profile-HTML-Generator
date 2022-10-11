@@ -6,6 +6,7 @@ describe('Engineer', () => {
     const employeeID = 8901
     const employeeName = "Ms Engineer"
     const employeeEmail = "engineer@companyname.com"
+    const employeeRole = "Engineer"
     const gitHubUserName = "MsEngin"
 
     // Positive test
@@ -18,6 +19,7 @@ describe('Engineer', () => {
       expect(engineer.id).toEqual(employeeID)
       expect(engineer.empName).toEqual(employeeName);
       expect(engineer.email).toEqual(employeeEmail);
+      expect(engineer.getRole()).toEqual(employeeRole);
       expect(engineer.gitHubUserName).toEqual(gitHubUserName);
     });
 

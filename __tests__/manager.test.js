@@ -8,6 +8,7 @@ describe('Manager', () => {
       const employeeID = 4567
       const employeeName = "Mr Manager"
       const employeeEmail = "manage@companyname.com"
+      const employeeRole = "Manager"
       const managerOfficeNumber = 909
 
       // Act
@@ -17,6 +18,7 @@ describe('Manager', () => {
       expect(manager.id).toEqual(employeeID)
       expect(manager.empName).toEqual(employeeName);
       expect(manager.email).toEqual(employeeEmail);
+      expect(manager.getRole()).toEqual(employeeRole);
       expect(manager.officeNumber).toEqual(managerOfficeNumber);
     });
 
