@@ -1,6 +1,7 @@
 // Destucture object properties on the fly: const {name, repoinfo, github, linkedin} = answers
 // generateHTML does a single task: return HTML string in backticks
-const generateHTML = ({ name, repoinfo, github, linkedin }) =>
+// const generateHTML = ({ name, repoinfo, github, linkedin }) =>
+const htmlHead = () =>
 `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,22 +12,66 @@ const generateHTML = ({ name, repoinfo, github, linkedin }) =>
   <title>Team Profile</title>
 </head>
 <body>
-  <div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">Hi! My name is ${name}</h1>
-    <p class="lead">I am from ${repoinfo}.</p>
-    <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
-    <ul class="list-group">
-      <li class="list-group-item">My GitHub username is ${github}</li>
-      <li class="list-group-item">LinkedIn: ${linkedin}</li>
-    </ul>
-  </div>
-</div>
+`;
+
+const htmlTail = () =>
+`
 </body>
-</html>`;
+</html>
+`
+
+const htmlManager = ({ id, empName, email, officeNumber }) =>
+`
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Hi! My name is ${empName}</h1>
+      <p class="lead">Id =  ${id}.</p>
+      <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
+      <ul class="list-group">
+        <li class="list-group-item">My email is ${email}</li>
+        <li class="list-group-item">office nbr: ${officeNumber}</li>
+      </ul>
+    </div>
+  </div>
+`;
+
+const htmlEngineer = ({ id, empName, email, gitHubUserName }) =>
+`
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Hi! My name is ${empName}</h1>
+      <p class="lead">Id =  ${id}.</p>
+      <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
+      <ul class="list-group">
+        <li class="list-group-item">My email is ${email}</li>
+        <li class="list-group-item">github: ${gitHubUserName}</li>
+      </ul>
+    </div>
+  </div>
+`;
+
+const htmlIntern = ({ id, empName, email, school }) =>
+`
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Hi! My name is ${empName}</h1>
+      <p class="lead">Id =  ${id}.</p>
+      <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
+      <ul class="list-group">
+        <li class="list-group-item">My email is ${email}</li>
+        <li class="list-group-item">school: ${school}</li>
+      </ul>
+    </div>
+  </div>
+`;
 
 module.exports = {
-  generateHTML
+  // generateHTML
+  htmlHead,
+  htmlTail,
+  htmlManager,
+  htmlEngineer,
+  htmlIntern
 }
 
 // (function () {
