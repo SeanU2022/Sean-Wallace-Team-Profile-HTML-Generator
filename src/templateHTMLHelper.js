@@ -1,6 +1,6 @@
-// Destucture object properties on the fly: const {name, repoinfo, github, linkedin} = answers
-// generateHTML does a single task: return HTML string in backticks
-// const generateHTML = ({ name, repoinfo, github, linkedin }) =>
+// Destucture object properties on the fly: parameter {...} = (staffMember)
+// generateHTMLHelper does a single task: return HTML string in backticks
+
 const htmlHead = () =>
 `<!DOCTYPE html>
 <html lang="en">
@@ -66,28 +66,9 @@ const htmlIntern = ({ id, empName, email, school }) =>
 `;
 
 module.exports = {
-  // generateHTML
   htmlHead,
   htmlTail,
   htmlManager,
   htmlEngineer,
   htmlIntern
 }
-
-// (function () {
-//   console.log('hello world')
-//   console.log(this)
-// })
-// ()
-
-// fnName = () => {
-//   console.log('arrow function')
-//   console.log('arrow function')
-// }
-// fnName()  // this call the anonynous fn
-
-// fnDoStuff = (param1, param2) => {
-//   console.log('arrow function param1 ' + param1)
-//   console.log('arrow function param2 ' + param2)
-// }
-// fnDoStuff('P1', 222)

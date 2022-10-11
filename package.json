@@ -5,7 +5,7 @@
   "main": "index.js",
   "directories": {
     "lib": "lib",
-    "test": "tests"
+    "test": "__tests__"
   },
   "scripts": {
     "comment": "echo \"Error: no test specified\" && exit 1",

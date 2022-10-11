@@ -10,7 +10,7 @@ const { htmlHead, htmlTail, htmlManager, htmlEngineer, htmlIntern } = require('.
 
 // The Team class controls the build of the team
 // starting with addManager which calls addTeamMembers which calls addEngineer/addIntern
-// addEngineer/addIntern then call addTeamMembers at the end to restart the process
+// addEngineer/addIntern then calls addTeamMembers at the end to restart the process
 // CRITICAL:  this.addTeamMembers() must be wrapped in an anonymous arrow fn to force
 //            inquirer to delay prompts appearing before the current prompt is answered
 //            - this is likely because the technique below is not the best with using inquirer 
@@ -20,6 +20,7 @@ class Team {
   constructor() {
     this.teamMembers = []
     this.htmlFinalised = ''
+    this.htmlFileToWrite = './dist/index.html'
   }
   build() {
     // starting with the manager build the teamMembers array
@@ -27,7 +28,6 @@ class Team {
   }
 
   addManager() {
-    console.log('add manager')
     function promptManager() {
       return inquirer.prompt([
           {
@@ -54,19 +54,13 @@ class Team {
     }
     promptManager()
       .then((answers) => {
-        console.log(answers)
         const manager = new Manager (
           answers.empid ,
           answers.name ,
           answers.email ,
           answers.officenumber
         )
-        // teamMembers.push(answers)
         this.teamMembers.push(manager)
-        console.log(this.teamMembers)
-        console.log(manager.getRole())
-        console.log(manager.getId())
-        console.log(manager.getName())
         })
       .then( () => {
         // use anonymous arrow to delay processing
@@ -76,39 +70,26 @@ class Team {
   } // addManager
 
   addTeamMembers() {
-    console.log('add team member')
-    // const promptForTeamMember = () => {
     function promptForTeamMember() {
-      // 1 return   inquirer.prompt([
       return inquirer.prompt([
           {
               type: 'list',
               name: 'team',
               message: 'Add another team memmber?',
-              choices: ['Engineer', 'Intern', 'finish building my team']
+              choices: ['Engineer', 'Intern', 'No - I\'ve finish; go ahead and build the team in HTML']
           }
       ])
     }
-    // 2 return promptForTeamMember()
     promptForTeamMember()
       .then((answers) => {
-        // console.log('promptForTeamMember() START')
-        // console.log(answers)
         if (answers.team === 'Engineer') {
           this.addEngineer()
-          // console.log('you added an engineerXXXXXXXXXXXXXX')
         } else if (answers.team === 'Intern') {
           this.addIntern()
-          // console.log('you added an intern')        
         } else {
-          console.log('array built - now generate HTML as next step')
-          let stri = this.generateHTML(this.teamMembers)
-          this.htmlFinalised = stri
-          fs.writeFileSync('./dist/sean.html', stri)
-// console.log(stri)
-          // .then(() => {this.quit()} )
-          return
-          // this.quit()
+          // user has chosen to finish and build html
+          this.writeHTML(this.htmlFileToWrite, this.generateHTML(this.teamMembers))
+          return this.quit()
         }
       }).catch((error) => console.error(error))
   } // addTeamMembers
@@ -140,19 +121,13 @@ class Team {
     }
     promptForEngineer()
       .then((answers) => {
-        console.log('promptForEngineer() FINISHED')
-        console.log(answers)
-        console.log('add engineer')
         const engineer = new Engineer (
           answers.empid ,
           answers.name ,
           answers.email ,
           answers.gitHubUserName
         )
-        // teamMembers.push(answers)
         this.teamMembers.push(engineer)
-        console.log('you added an engineer')
-        console.log(this.teamMembers)
       })
       .then(  () => {
         // use anonymous arrow to delay processing
@@ -188,19 +163,13 @@ class Team {
     }
     promptForIntern()
       .then((answers) => {
-        console.log('promptForIntern() FINISHED')
-        console.log(answers)
-        console.log('add Intern')
         const intern = new Intern (
           answers.empid ,
           answers.name ,
           answers.email ,
           answers.school
         )
-        // teamMembers.push(answers)
         this.teamMembers.push(intern)
-        console.log('you added an intern')
-        console.log(this.teamMembers)
       })
       .then( () => {
         // use anonymous arrow to delay processing
@@ -210,7 +179,6 @@ class Team {
   } // addIntern
 
   generateHTML(team) {
-    console.log('generate htmlgenerate htmlgenerate htmlgenerate html')
     let htmlGenerated = htmlHead()
     let teamMember = team.map(staffMember => {
       switch (staffMember.getRole()) {
@@ -232,9 +200,13 @@ class Team {
     return htmlGenerated
   }
 
+  writeHTML(fileName, dataHTML) {
+    fs.writeFileSync(fileName, dataHTML)
+  }
+
   // Logs goodbye and exits the node app
   quit() {
-    console.log("\nGoodbye! quit() WAS CALLED");
+    console.log("\nGoodbye! HTML is here: " + this.htmlFileToWrite);
     process.exit(0);
   }
 }
