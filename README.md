@@ -20,9 +20,9 @@ A Node.js CLI Application using Inquirer to capture information about staff in a
 -----
 
 ## Installation
+In project folder run this command: npm i inquirer@8.2.4
 package.json dependencies: inquirer ^8.2.4 & jest ^24.9.0
 package.json test scripts: jest
-run 'npm install' in project home folder
   
 ## Usage
 run 'node index' and follow prompts
@@ -69,7 +69,7 @@ THEN that GitHub profile opens in a new tab
 
 The following image shows a mock-up of the generated HTML’s appearance and functionality:
 
-![HTML webpage titled “My Team” features five boxes listing employee names, titles, and other key info.](./Assets/10-object-oriented-programming-homework-demo.png)
+![HTML webpage titled “Team Profile” features boxes listing employee names, titles, and other key info.](Sean-Wallace-Team-Profile-Generator-Mock.png)
 
 ## Licence
 
