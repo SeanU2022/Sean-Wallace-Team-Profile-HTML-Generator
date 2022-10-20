@@ -11,22 +11,21 @@ const { htmlHead, htmlTail, htmlManager, htmlEngineer, htmlIntern } = require('.
 // The Team class controls the build of the team
 // starting with addManager which calls addTeamMembers which calls addEngineer/addIntern
 // addEngineer/addIntern then calls addTeamMembers at the end to restart the process
-// CRITICAL:  this.addTeamMembers() must be wrapped in an anonymous arrow fn to force
-//            inquirer to delay prompts appearing before the current prompt is answered
-//            - this is likely because the technique below is not the best with using inquirer 
-// NOTE:      this is not using arrow functions as class methods
 class Team {
   // Save a reference for `this` in `this` as `this` will change inside of inquirer
   constructor() {
     this.teamMembers = []
     this.htmlFinalised = ''
+    this.htmlFileSaved = false
     this.htmlFileToWrite = './dist/index.html'
+    // TEST: remove correct folder to test fs.filewrite: this.htmlFileToWrite = './dis/index.html'
   }
   build() {
     // starting with the manager build the teamMembers array
     this.addManager()
   }
 
+  // NOTE: promptManger returns inquirer prompt and THEN pushes response to array and calls next method addTeamMembers
   addManager() {
     function promptManager() {
       return inquirer.prompt([
@@ -61,11 +60,12 @@ class Team {
           answers.officenumber
         )
         this.teamMembers.push(manager)
-        })
-      .then( () => {
-        // use anonymous arrow to delay processing
         this.addTeamMembers()
-      })
+        })
+      // .then( () => {
+      //   // use anonymous arrow to delay processing
+      //   this.addTeamMembers()
+      // })
       .catch((error) => console.error(error))
   } // addManager
 
@@ -128,11 +128,14 @@ class Team {
           answers.gitHubUserName
         )
         this.teamMembers.push(engineer)
-      })
-      .then(  () => {
-        // use anonymous arrow to delay processing
         this.addTeamMembers()
       })
+      // NOTE:  addTeamMembers() needs to be in promptForEngineer.then above 
+      // NOTE:  not here because we want synchronous not async processing
+      // .then(  () => {
+      //   // use anonymous arrow to delay processing
+      //   this.addTeamMembers()
+      // })
       .catch((error) => console.error(error))
   } // addEngineer
 
@@ -159,7 +162,7 @@ class Team {
           name: 'school',
           message: 'What School did the Intern go to?',
         }
-    ])
+      ])
     }
     promptForIntern()
       .then((answers) => {
@@ -170,9 +173,6 @@ class Team {
           answers.school
         )
         this.teamMembers.push(intern)
-      })
-      .then( () => {
-        // use anonymous arrow to delay processing
         this.addTeamMembers()
       })
       .catch((error) => console.error(error))
@@ -192,7 +192,7 @@ class Team {
           htmlGenerated += htmlIntern(staffMember)
           break;
         default:
-          console.log('unexpected team.js>class Team>generateHTML>member.getRole()')
+          console.log('Error: unexpected team.js>class Team>generateHTML>member.getRole()')
           break;
       }
     })
@@ -201,12 +201,28 @@ class Team {
   }
 
   writeHTML(fileName, dataHTML) {
-    fs.writeFileSync(fileName, dataHTML)
+    // old technique:
+    // const errorFileWritten = fs.writeFileSync(fileName, dataHTML)
+    // if (errorFileWritten) {
+    //   console.log(fileWritten)
+    // }
+    // new technique:
+    try {
+      fs.writeFileSync(fileName, dataHTML)
+      this.htmlFileSaved = true
+    } catch (error) {
+      // console.error(error)
+      console.log("Error: writeHTML fs.writeFileSync failed - disk is full or folder for this.htmlFileToWrite doesn't exist")
+    }
   }
 
   // Logs goodbye and exits the node app
   quit() {
-    console.log("\nGoodbye! HTML is here: " + this.htmlFileToWrite);
+    if (this.htmlFileSaved) {
+      console.log("\nGoodbye! HTML is here: " + this.htmlFileToWrite);  
+    } else {
+      console.log("\nGoodbye! Error! file not written! check: " + this.htmlFileToWrite);
+    }
     process.exit(0);
   }
 }
