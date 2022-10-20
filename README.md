@@ -2,7 +2,7 @@
 -----
 ![image](https://img.shields.io/badge/License-MIT-yellow.svg)
 ## Description
-A Node.js CLI Application using Inquirer to capture information about staff in a software engineering team that generates an HTML webpage displaying cards with summaries for each person.
+A Node.js CLI Application using Inquirer to capture information about staff in a software engineering team that generates an HTML webpage displaying cards with summaries for each person.  Highlights include: OOP using inquirer, try/catch async calls, prompt/then/catch calls, template literals with HTML generation, recursion.  Unit tests with jest.
 
 ## Table of Contents
 
