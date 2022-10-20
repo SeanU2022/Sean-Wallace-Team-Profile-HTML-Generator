@@ -6,7 +6,7 @@ const Manager = require("../lib/manager");
 const Engineer = require("../lib/engineer");
 const Intern = require("../lib/intern");
 
-const { htmlHead, htmlTail, htmlManager, htmlEngineer, htmlIntern } = require('./templateHTMLHelper')
+const { htmlShell, htmlCardManager, htmlCardEngineer, htmlCardIntern } = require('./templateHTMLHelper')
 
 // The Team class controls the build of the team
 // starting with addManager which calls addTeamMembers which calls addEngineer/addIntern
@@ -15,7 +15,7 @@ class Team {
   // Save a reference for `this` in `this` as `this` will change inside of inquirer
   constructor() {
     this.teamMembers = []
-    this.htmlFinalised = ''
+    // this.htmlFinalised = ''
     this.htmlFileSaved = false
     this.htmlFileToWrite = './dist/index.html'
     // TEST: remove correct folder to test fs.filewrite: this.htmlFileToWrite = './dis/index.html'
@@ -89,6 +89,11 @@ class Team {
         } else {
           // user has chosen to finish and build html
           this.writeHTML(this.htmlFileToWrite, this.generateHTML(this.teamMembers))
+          
+          // test code
+          // let output = this.generateHTML(this.teamMembers)
+          // console.log(output)
+          
           return this.quit()
         }
       }).catch((error) => console.error(error))
@@ -178,26 +183,44 @@ class Team {
       .catch((error) => console.error(error))
   } // addIntern
 
-  generateHTML(team) {
-    let htmlGenerated = htmlHead()
-    let teamMember = team.map(staffMember => {
+  generateHTML_Method1_NotUsed(team) {
+    let htmlCards = ``
+    team.map(staffMember => {
       switch (staffMember.getRole()) {
         case 'Manager':
-          htmlGenerated += htmlManager(staffMember)
+          htmlCards += htmlCardManager(staffMember);
           break;
         case 'Engineer':
-          htmlGenerated += htmlEngineer(staffMember)
+          htmlCards += htmlCardEngineer(staffMember);
           break;
         case 'Intern':
-          htmlGenerated += htmlIntern(staffMember)
+          htmlCards += htmlCardIntern(staffMember);
           break;
         default:
-          console.log('Error: unexpected team.js>class Team>generateHTML>member.getRole()')
+          console.log('Error: unexpected team.js>class Team>generateHTML>member.getRole()');
           break;
       }
     })
-    htmlGenerated += htmlTail()
-    return htmlGenerated
+    return htmlShell(htmlCards)
+  }
+
+  // method 1 above is better but method 2 can work with join(``)
+  generateHTML(team) {
+    let htmlCards = team.map(staffMember => {
+      if (staffMember.getRole() === 'Manager') {
+        return htmlCardManager(staffMember)
+
+      } else if (staffMember.getRole() === 'Engineer') {
+        return htmlCardEngineer(staffMember)
+
+      } else if (staffMember.getRole() === 'Intern') {
+        return htmlCardIntern(staffMember)
+
+      } else {
+        console.log('Error: unexpected team.js>class Team>generateHTML>member.getRole()')
+      }
+    }).join(``) // used here to prevent "," appearing in the mapped output    
+    return htmlShell(htmlCards)
   }
 
   writeHTML(fileName, dataHTML) {

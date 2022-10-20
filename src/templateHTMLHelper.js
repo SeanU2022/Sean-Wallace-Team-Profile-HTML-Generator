@@ -1,7 +1,7 @@
 // Destucture object properties on the fly: parameter {...} = (staffMember)
 // generateHTMLHelper does a single task: return HTML string in backticks
 
-const htmlHead = () =>
+const htmlShell = (htmlTeamCards) =>
 `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,17 +89,17 @@ const htmlHead = () =>
   <div class = "container-fluid">
     <p></p>
     <div class="card-deck m-4">
-`;
 
-const htmlTail = () =>
-`
+      ${htmlTeamCards}
+
     </div> <!-- Card deck -->
   </div> <!--container-fluid-->
 </body>
 </html>
-`
+`;
 
-const htmlManager = ({ id, empName, email, officeNumber }) =>
+
+const htmlCardManager = ({ id, empName, email, officeNumber }) =>
 `
       <div class="card mb-4 rounded-lg">
         <div class="card-header p-0">
@@ -114,7 +114,7 @@ const htmlManager = ({ id, empName, email, officeNumber }) =>
       </div> <!-- card-->
 `;
 
-const htmlEngineer = ({ id, empName, email, gitHubUserName }) =>
+const htmlCardEngineer = ({ id, empName, email, gitHubUserName }) =>
 `
       <div class="card mb-4 rounded-lg min-width: 120px">
         <div class="card-header p-0">
@@ -129,7 +129,7 @@ const htmlEngineer = ({ id, empName, email, gitHubUserName }) =>
       </div> <!-- card-->
 `;
 
-const htmlIntern = ({ id, empName, email, school }) =>
+const htmlCardIntern = ({ id, empName, email, school }) =>
 `
       <div class="card mb-4 rounded-lg min-width: 120px">
         <div class="card-header p-0">
@@ -145,9 +145,8 @@ const htmlIntern = ({ id, empName, email, school }) =>
 `;
 
 module.exports = {
-  htmlHead,
-  htmlTail,
-  htmlManager,
-  htmlEngineer,
-  htmlIntern
+  htmlShell,
+  htmlCardManager,
+  htmlCardEngineer,
+  htmlCardIntern
 }
